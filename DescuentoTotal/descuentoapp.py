@@ -8,7 +8,7 @@ class DescuentoApp:
         self.root.geometry("400x300")
         self.root.configure(bg="#FFD700")  
 
-        self.label_mes = tk.Label(root, text="Ingrese el mes:", bg="#FFD700", font=("Arial", 12))
+        self.label_mes = tk.Label(root, text="Ingrese el no. de mes:", bg="#FFD700", font=("Arial", 12))
         self.label_mes.pack(pady=5)
 
         self.entry_mes = tk.Entry(root, font=("Arial", 12))
@@ -29,12 +29,22 @@ class DescuentoApp:
     def calcular_descuento(self):
         try:
             mes = self.entry_mes.get()
-            importe = float(self.entry_importe.get())
+            importe = self.entry_importe.get()
 
+            # Validar mes (debe ser un número entre 1 y 12)
+            if not mes.isdigit() or int(mes) < 1 or int(mes) > 12:
+                raise ValueError("Ingrese un mes válido (1-12).")
+
+            # Validar importe (debe ser un número positivo)
+            if not importe.replace('.', '', 1).isdigit() or float(importe) <= 0:
+                raise ValueError("Ingrese un importe válido y positivo.")
+            
+            mes = int(mes)
+            importe = float(importe)
+            
             descuento = Descuento(mes, importe)
             total = descuento.calcular_total()
             
             self.result_label.config(text=f"Total a pagar: ${total:.2f}")
-        except ValueError:
-            messagebox.showerror("Error", "Ingrese un importe válido.")
-
+        except ValueError as e:
+            messagebox.showerror("Error", f"Error: {e}")

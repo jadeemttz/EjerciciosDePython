@@ -9,28 +9,23 @@ class Salarioapp:
         self.root.geometry("400x300")
         self.root.configure(bg="#D0F4D3")
         
-        # Etiqueta de Nombre
         self.nombre_label = tk.Label(root, text="Nombre:", bg="#D0F4D3", font=("Arial", 12))
         self.nombre_label.pack(pady=10)
         
-        # Campo de entrada para nombre
         self.nombre_entry = tk.Entry(root, font=("Arial", 12))
         self.nombre_entry.pack()
         
-        # Etiqueta de Salario
         self.salario_label = tk.Label(root, text="Salario Base:", bg="#D0F4D3", font=("Arial", 12))
         self.salario_label.pack(pady=10)
         
-        # Campo de entrada para salario
         self.salario_entry = tk.Entry(root, font=("Arial", 12))
         self.salario_entry.pack(pady=5)
         
-        # Botón de Calcular incremento
         self.Calcular_button = tk.Button(
             root,
             text="Calcular Incremento",
             command=self.Calcular_incremento,
-            bg="#82CFC2",  # Verde menta
+            bg="#82CFC2",
             fg="white",
             font=("Arial", 12),
         )
@@ -39,9 +34,15 @@ class Salarioapp:
     def Calcular_incremento(self):
         try:
             nombre = self.nombre_entry.get()
-            salario_base = float(self.salario_entry.get())
-            if not nombre or salario_base <= 0:
-                raise ValueError("Ingrese valores válidos.")
+            salario_base = self.salario_entry.get()
+            
+            if not nombre.isalpha():
+                raise ValueError("El nombre solo puede contener letras.")
+            
+            if not salario_base.replace('.', '', 1).isdigit() or float(salario_base) <= 0:
+                raise ValueError("Ingrese un salario base válido y positivo.")
+            
+            salario_base = float(salario_base)
             empleado = Empleado(nombre, salario_base)
             incremento = empleado.calcular_salario()
             nuevo_salario = empleado.nuevo_salario()

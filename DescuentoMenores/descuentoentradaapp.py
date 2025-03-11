@@ -21,10 +21,15 @@ class DescuentoApp:
 
     def calcular_pago(self):
         try:
-            edad = int(self.entry.get())
+            edad = self.entry.get()
+            
+            if not edad.isdigit() or int(edad) <= 0:
+                raise ValueError("La edad debe ser un número positivo.")
+            
+            edad = int(edad)
             descuento = DescuentoEntrada(edad)
             total = descuento.calcular_pago()
 
             self.result_label.config(text=f"Total a pagar: {total:.2f} soles")
-        except ValueError:
-            messagebox.showerror("Error", "Ingrese una edad válida.")
+        except ValueError as e:
+            messagebox.showerror("Error", f"Error: {e}")

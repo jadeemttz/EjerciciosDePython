@@ -29,9 +29,9 @@ def main():
 
 
     ejercicios = [
-        "AumentoTrabajador", "MontoTrabajador", "DescuentoMenores", 
+        "AumentoTrabajador", "DescuentoMenores",
         "DescuentoTotal", "NumeroMenor10", "Rango20", 
-        "ContadorNumeroTeclado", "SumaNNumeros", "SumaHasta0", "SumaHasta100"
+        "ContadorNumeroTeclado", "SumaNNumeros", "SumaHasta0", "SumaHasta100", "MontoTrabajador"
     ]
     
     for ejercicio in ejercicios:

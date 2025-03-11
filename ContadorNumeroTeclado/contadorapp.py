@@ -9,7 +9,7 @@ class ContadorApp:
         self.root.configure(bg="#98FB98") 
         self.intentos = 0
         
-        self.label = tk.Label(root, text="Ingrese un número (1-19):", bg="#98FB98", font=("Arial", 12))
+        self.label = tk.Label(root, text="Ingrese un número (0-20):", bg="#98FB98", font=("Arial", 12))
         self.label.pack(pady=10)
         
         self.entry = tk.Entry(root, font=("Arial", 12))
@@ -23,13 +23,19 @@ class ContadorApp:
     
     def contador(self):
         try:
-            numero = int(self.entry.get())
+            numero = self.entry.get()
+            
+            if not numero.isdigit():
+                raise ValueError("Debe ingresar un número válido.")
+            
+            numero = int(numero)
+            
+            if numero < 0 or numero > 20:
+                raise ValueError("El número debe estar entre 0 y 20.")
+            
             self.intentos += 1
             self.label_intentos.config(text=f"Intentos: {self.intentos}")
             
-            if Validacion.validar_numero(numero):
-                messagebox.showinfo("Éxito", f"El número {numero} es válido. Intentos: {self.intentos}")
-            else:
-                messagebox.showwarning("Error", "Número fuera del rango. Intente nuevamente.")
-        except ValueError:
-            messagebox.showerror("Error", "Ingrese un número válido.")
+            messagebox.showinfo("Éxito", f"El número {numero} es válido. Intentos: {self.intentos}")
+        except ValueError as e:
+            messagebox.showerror("Error", f"Error: {e}")
